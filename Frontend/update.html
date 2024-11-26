@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Обновление заявки</title>
+    <style>
+        body{
+            background-color: #FFFFE0;
+        }
+        div{
+            text-align: center;
+            background-color: #FFFFE0;
+        }
+        input, select {
+            width: 300px;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        select {
+            height: 40px;
+        }
+        input[type="submit"] {
+            width: 320px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        label {
+            font-size: 16px;
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <a href="create.html">Создание заявки</a>
+    <a href="orders.html">Список заявок</a>
+    <a href="update.html">Обновление заявки</a>
+    <a href="stat.html">Статистика</a>
+<div> <iframe name="frame" style="display: none;"></iframe>
+    <form target="frame" action="http://localhost:5210/update" method="get">
+        <input required placeholder="Номер" type="number" name="number" /><br/>
+        <input placeholder="Описание проблемы" type="text" name="description" /><br/>
+        <input placeholder="Назначенный мастер" type="text" name="master" /><br/>
+        <input placeholder="Комментарий от мастера" type="text" name="Comment" /><br/>
+        <label for="status">Статус</label><br/>
+        <select name="status">
+            <option>Готова к выдаче</option>
+            <option>в процессе ремонта</option>
+            <option>ожидание запчастей</option>
+        </select><br/>
+        <input type="submit" value="Обновление"  />
+    </form></div>
+</body>
+</html>

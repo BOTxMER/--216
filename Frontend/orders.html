@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список заявок</title>
+    <style>
+       .start{
+        text-align: center;
+       }
+       body{
+        background-color: #FFFFE0;
+       }
+       table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: auto;
+            background-color: #FFFFE0;
+        }
+
+        th, td {
+            border: 1px solid;
+            text-align: center;
+            padding: 8px;
+            background-color: #FFE4B5;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="start"><h1>Добро пожаловать на сайт  Сервисного центр "IT-Сan"</h1>
+    <h2>Разработка программного модуля для учета заявок на ремонт оргтехники.</h2>
+    <h6>ООО "Полюс".</h6></div>
+    <a href="create.html">Создание заявки</a>
+    <a href="orders.html">Список заявок</a>
+    <a href="update.html">Обновление заявки</a>
+    <a href="stat.html">Статистика</a>
+    <div>
+        <input id="search" placeholder="Номер"/>
+        <button onClick="GetFilter()">Найти</button>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Номер заявки</th>
+                <th>Дата добавления</th>
+                <th>Вид орг.Техники</th>
+                <th>Модел</th>
+                <th>Описание проблемы</th>
+                <th>Фио</th>
+                <th>Номер Телефона</th>
+                <th>Статус</th>
+                <th>Мастер</th>
+                <th>Комментарий от мастера</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</body>
+<script>
+    let tbody = document.querySelector("tbody");
+
+    GetOrders();
+
+    async function GetOrders(param = null) {
+        let uri = param ?
+            `http://localhost:5210/orders?param=${param}` :
+            "http://localhost:5210/orders";
+
+        let response = await fetch(uri).then(data => data.json())
+        if(response.message)
+            alert(response.message);
+
+        response.repo.forEach(o => {
+            let tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td>${o.number}</td>
+                <td>${o.startDate}</td>
+                <td>${o.orgtech}</td>
+                <td>${o.model}</td>
+                <td>${o.description}</td>
+                <td>${o.fio}</td>
+                <td>${o.phone}</td>
+                <td>${o.status}</td>
+                <td>${o.master}</td>
+                <td>${o.comments}</td>`;
+
+            tbody.append(tr);
+        });
+    }
+
+    function GetFilter() {
+        tbody.innerHTML = ""
+        let param = document.getElementById("search").value;
+        GetOrders(param)
+    }
+</script>
+</html>

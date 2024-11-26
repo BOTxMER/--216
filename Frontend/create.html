@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Создание заявки</title>
+    <style>
+        div {
+            text-align: center;
+        }
+        body{
+            background-color: #FFFFE0;
+        }
+        input, select {
+            width: 300px;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        select {
+            height: 40px;
+        }
+        input[type="submit"] {
+            width: 320px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        label {
+            font-size: 16px;
+            margin-top: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <a href="create.html">Создание заявки</a>
+    <a href="orders.html">Список заявок</a>
+    <a href="update.html">Обновление заявки</a>
+    <a href="stat.html">Статистика</a>
+    <div>
+        <form id="createOrderForm">
+            <input required placeholder="Номер" type="number" name="number" /><br/>
+            <label for="startDate">Дата начала</label><br/>
+            <input required type="date" name="startDate" /><br/>
+            <input required placeholder="Вид орг.техники" type="text" name="device" /><br/>
+            <input required placeholder="Модель" type="text" name="model" /><br/>
+            <input required placeholder="Описание" type="text" name="description" /><br/>
+            <input required placeholder="Фио" type="text" name="fio" /><br/>
+            <input required placeholder="Номер телефона" type="text" name="phone" /><br/>
+            <label for="status">Статус</label><br/>
+            <select name="status">
+                <option value="новая заявка">новая заявка</option>
+                <option value="в процессе ремонта">в процессе ремонта</option>
+                <option value="завершена">завершена</option>
+            </select><br/>
+            <input type="submit" value="Создать заявку" />
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('createOrderForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('http://localhost:5210/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert("Заявка успешно создана!");
+                    window.location.href = 'orders.html'; // Перенаправление на страницу списка заявок
+                } else {
+                    alert("Ошибка при создании заявки!");
+                }
+            } catch (error) {
+                alert("Ошибка при отправке данных!");
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
